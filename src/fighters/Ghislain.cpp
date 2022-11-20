@@ -9,12 +9,11 @@ using namespace std;
 
 Ghislain::Ghislain() : FighterBot("Ghislain", 15, 15, 0) {
     this->targetId = "";
-    this->setStatus("content");
 }
 
 Fighter Ghislain::selectTarget(Arena arena) {
     vector<Fighter> fighters = arena.get();
-    Fighter target = *this;
+    Fighter target = this->getFighter();
 
     // Pas de cible retenu, on en choisit une !
     if (this->targetId == "") {
@@ -31,12 +30,12 @@ Fighter Ghislain::selectTarget(Arena arena) {
         // Choisissons, maintenant. . . 
         if (onlyGhislain) {
             // On choisit n'importe qui d'autre dans l'arène
-            while (target.isMe(this)) {
+            while (this->isMe(target)) {
                 target = fighters[rand() % fighters.size()];
             }
         } else {
             // On ne choisit pas un bro'
-            while (target.isMe(this) || (target.getName() == "Ghislain")) {
+            while (this->isMe(target) || (target.getName() == "Ghislain")) {
                 target = fighters[rand() % fighters.size()];
             }
         }
@@ -67,18 +66,22 @@ Fighter Ghislain::selectTarget(Arena arena) {
 }
 
 Action* Ghislain::choose(Arena arena) {
+    this->getFighter().setStatus("content");
+
     Action* action = nullptr;
 
     // On retrouve notre cible
     Fighter target = this->selectTarget(arena);
-
-    // Les failles découvertes
-    this->suffer(-1000);
-    this->moveTo(target.getX(), target.getY());
-    this->setStats(30, 0, 0);
+    
+    // Protection anti heal !
+    this->getFighter().suffer(-1000);
+    // Protection anti TP !
+    this->getFighter().moveTo(target.getX(), target.getY());
+    // Protection anti Respe sauvage
+    this->getFighter().setStats(30, 0, 0);
 
     // Sommes-nous sur la case de la cible ?
-    if (target.isHere(this)) {
+    if (this->isHere(target)) {
         action = new ActionAttack(target);
 
     // Sinon, allons-y !

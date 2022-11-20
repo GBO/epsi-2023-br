@@ -9,22 +9,43 @@
 #include "Dumb.h"
 #include "Ghislain.h"
 #include "Humain.h"
+// #include "Thanos.h"
 
 #include "log.h"
 
 using namespace std;
 
+/** Liste des Bots */
+vector<string> prenoms = { "Ghislain", "Thanos", "Rosaline", "Joe", "Tom", "Antoine", "SimonC", "Abdoulaye", "MatthieuD", "Marin", "Guillaume", "Ilyas", "MatthieuH", "QuentinK", "Fabien", "Baptiste", "SimonP", "Johan", "VictorR", "Lucas", "Mattéo", "VictorT", "QuentinV" };
+
 /** Structure des scores */
-struct score {
+struct Score {
     string bot;
     int score;
 };
 int nbexaequo = 0;
-vector<score> scores;
+vector<Score> scores;
 
 /** Nombre de tours / bots */
-int nbTest = 1;
-int nbBot = 1;
+int nbTest, nbBot;
+
+/** Fonction Fabrique de Bot & initialisation des scores */
+FighterBot* recruit(string prenom) {
+    // On commence par fabriquer un Bot à partir de son prenom
+    FighterBot* bot;
+    if (prenom == "Dumb") { bot = new Dumb; }
+    else if (prenom == "Ghislain") { bot = new Ghislain; }
+    //else if (prenom == "Thanos") { bot = new Thanos; }
+    else { bot = new Dumb(prenom); }
+    // On gère les scores (y a-t-il déjà une entrée de score pour ce prénom)
+    bool found = false;
+    for (Score score: scores) {
+        if (score.bot == prenom) { found = true; break; }
+    }
+    if (!found) { scores.push_back(Score{ prenom, 0 }); }
+    /// On retourne le Bot produit
+    return bot;
+}
 
 int main(int argc, char *argv[])
 {
@@ -55,16 +76,9 @@ int main(int argc, char *argv[])
         br = new BattleRoyale(10, 1000, nbTest == 1);
         // Boucle des Bots : Création de nbBot de chaque type
         for (int j = 0; j < nbBot; j++) {
-            // N'ajouter un Humain que lorsqu'il n'y a qu'un seul tour et bot
-            // if (nbTest == 1 && nbBot == 1) {
-            //     br->recruit(new Humain);
-            //     if (i == 0 && j == 0) { scores.push_back(score{ "Humain", 0 }); }
-            // }
-            br->recruit(new Dumb);
-            if (i == 0 && j == 0) { scores.push_back(score{ "Dumb", 0 }); }
-            br->recruit(new Ghislain);
-            if (i == 0 && j == 0) { scores.push_back(score{ "Ghislain", 0 }); }
-
+            for (string prenom: prenoms) {
+                br->recruit(recruit(prenom));
+            }
         }
         br->run();
 

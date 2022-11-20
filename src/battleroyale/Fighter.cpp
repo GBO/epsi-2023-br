@@ -151,22 +151,24 @@ void Fighter::assault(Fighter* target) {
  *   Aléa (-2/3)
  */
 void Fighter::suffer(int damage) {
-    int effective = 
-        // Dégâts reçus
-        (damage -
-        // Bonus stats defense
-        (((damage / 2) * this->defense) / 30) -
-        // Alea
-        ((rand() % 5) - 2)
-        );
-    this->life = this->life - effective;
-    this->display("", false);
-    log(" a subi ");
-    log(effective, RED);
-    log("(");
-    log(damage, BLUE);
-    log(")");
-    logln(" points de dégâts.");
+    if (damage > 0) {
+        int effective = 
+            // Dégâts reçus
+            (damage -
+            // Bonus stats defense
+            (((damage / 2) * this->defense) / 30) -
+            // Alea
+            ((rand() % 5) - 2)
+            );
+        this->life = this->life - effective;
+        this->display("", false);
+        log(" a subi ");
+        log(effective, RED);
+        log("(");
+        log(damage, BLUE);
+        log(")");
+        logln(" points de dégâts.");
+    }
 }
 
 /**

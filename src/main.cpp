@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     }
     log("Combien de chaque bot ? ", GREEN);
     if (argc > 2) {
-        nbBot = stoi(argv[1]);
+        nbBot = stoi(argv[2]);
         logln(nbBot);
     } else {
         cin >> nbBot;
@@ -63,8 +63,7 @@ int main(int argc, char *argv[])
             br->recruit(new Dumb);
             if (i == 0 && j == 0) { scores.push_back(score{ "Dumb", 0 }); }
             br->recruit(new Ghislain);
-            if (i == 0 && 
-            j == 0) { scores.push_back(score{ "Ghislain", 0 }); }
+            if (i == 0 && j == 0) { scores.push_back(score{ "Ghislain", 0 }); }
 
         }
         br->run();
@@ -77,6 +76,7 @@ int main(int argc, char *argv[])
                         break;
                     }
                 }
+                break;
             }
         }
         if (br->getWinner() == nullptr) {

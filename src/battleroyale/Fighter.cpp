@@ -21,7 +21,14 @@ Fighter::Fighter(string name, int attack, int defense, int speed) {
     // On utilise la méthode substr pour ne conserver que les derniers caratères de l'ID
     this->shortId = this->id.substr(this->id.size()-4);
 
+    // Vie
     this->life = 100;
+
+    // Position à 0 par défaut
+    this->x = 0;
+    this->y = 0;
+    // Status
+    this->status = "";
 
     // Stats à 0 par défaut
     this->attack = 0;
@@ -29,11 +36,6 @@ Fighter::Fighter(string name, int attack, int defense, int speed) {
     this->speed = 0;
     // Puis respé
     this->setStats(attack, defense, speed);
-    // Position à 0 par défaut
-    this->x = 0;
-    this->y = 0;
-    // Status
-    this->status = "";
 }
 
 /** Destructeur vide par defaut */
@@ -72,7 +74,12 @@ int Fighter::getLife() { return this->life; }
 int Fighter::getX() { return this->x; }
 int Fighter::getY() { return this->y; }
 string Fighter::getStatus() { return this->status; }
-void Fighter::setStatus(string status) { this->status = status; }
+void Fighter::setStatus(string status) {
+    if (this->status != status) {
+        this->status = status;
+        this->display(" change de status : '" + status + "'");
+    }
+}
 
 void Fighter::display() { this->display("", true); }
 void Fighter::display(string message) { this->display(message, true); }

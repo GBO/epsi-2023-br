@@ -33,17 +33,10 @@ FighterBot* BattleRoyale::getWinner() { return this->winner; }
 
 void BattleRoyale::recruit(FighterBot* bot) {
     Fighter* fighter = bot->init();
-    
-    bot->display("Recruitement...");
     this->fighters.push_back(fighter);
-
-    bot->display("Plaçage...");
     // On positionne aléatoirement le Fighter dans l'arène
     fighter->moveTo(rand() % this->size, rand() % this->size);
-    bot->display("Arenage...");
     this->arena->add(fighter);
-
-    bot->display("Botage...");
     this->bots.push_back(bot);
 }
 
@@ -69,9 +62,7 @@ void BattleRoyale::run() {
         // Affichage de l'arène avant le ROUND
         this->arena->display();
         // On joue le ROUND
-        this->runRound();
-        // On sort les Fighter KO de l'arène
-        this->cleanArena(round);
+        this->runRound(round);
         // Enfin : Incrémentons du round...
         round++;
         if (this->pause) {
@@ -103,16 +94,18 @@ void BattleRoyale::run() {
     logln("");
 }
 
-void BattleRoyale::runRound() {
+void BattleRoyale::runRound(int round) {
     // On retrie notre liste de bot à chaque tour :
     random_shuffle(this->fighters.begin(), this->fighters.end());
     sort(this->fighters.begin(), this->fighters.end(), Fighter::compare);
 
     for (Fighter* fighter : this->fighters) {
-        logln(fighter->getNameId() + " : ");
         // Ne jouent que les fighters non KO
         if (!fighter->isKO()) {
+            logln(fighter->getNameId() + " : ");
             this->runRoundFighter(fighter);
+            // On sort les Fighter KO de l'arène
+            this->cleanArena(round);
         }
     }
 }

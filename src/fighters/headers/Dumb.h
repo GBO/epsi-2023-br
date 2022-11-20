@@ -10,6 +10,7 @@ using namespace std;
 class Dumb: public FighterBot {
 public:
     Dumb();
+    Dumb(string prenom);
 
     virtual Action* choose(Arena arena);
 };

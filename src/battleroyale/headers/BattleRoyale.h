@@ -37,7 +37,7 @@ private:
     /** Méthodes non destinées à être utilisées à l'extérieur... Donc en private */
 
     /** Jouer un round */
-    void runRound();
+    void runRound(int round);
     /** Jouer le tour d'un Fighter dans le round */
     void runRoundFighter(Fighter* bot);
     /** Nettoyer l'arène à la fin du round */

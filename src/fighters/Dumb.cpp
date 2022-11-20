@@ -6,8 +6,8 @@
 
 using namespace std;
 
-Dumb::Dumb() : FighterBot("Dumb", 10, 10, 10) {
-}
+Dumb::Dumb() : FighterBot("Dumb", 10, 10, 10) {}
+Dumb::Dumb(string prenom) : FighterBot(prenom, 10, 10, 10) {}
 
 Action* Dumb::choose(Arena arena) {
     Action* action = nullptr;

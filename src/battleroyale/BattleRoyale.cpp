@@ -31,12 +31,20 @@ Arena BattleRoyale::getArena() { return (*this->arena); }
 vector<FighterBot*> BattleRoyale::getKos() { return this->kos; }
 FighterBot* BattleRoyale::getWinner() { return this->winner; }
 
-void BattleRoyale::recruit(FighterBot* fighter) {
-    // On positionne aléatoirement notre Fighter dans l'arène
+void BattleRoyale::recruit(FighterBot* bot) {
+    Fighter* fighter = bot->init();
+    
+    bot->display("Recruitement...");
+    this->fighters.push_back(fighter);
+
+    bot->display("Plaçage...");
+    // On positionne aléatoirement le Fighter dans l'arène
     fighter->moveTo(rand() % this->size, rand() % this->size);
-    // ...Et on l'ajoute dans toutes nos listes ^_^'
+    bot->display("Arenage...");
     this->arena->add(fighter);
-    this->bots.push_back(fighter);
+
+    bot->display("Botage...");
+    this->bots.push_back(bot);
 }
 
 int BattleRoyale::nbFighterAlive() {
@@ -97,19 +105,27 @@ void BattleRoyale::run() {
 
 void BattleRoyale::runRound() {
     // On retrie notre liste de bot à chaque tour :
-    random_shuffle(this->bots.begin(), this->bots.end());
-    sort(this->bots.begin(), this->bots.end(), Fighter::compare);
+    random_shuffle(this->fighters.begin(), this->fighters.end());
+    sort(this->fighters.begin(), this->fighters.end(), Fighter::compare);
 
-    for (FighterBot* bot : this->bots) {
-        logln(bot->getNameId() + " : ");
-        // Ne jouent que les bots non KO
-        if (!bot->isKO()) {
-            this->runRoundFighter(bot);
+    for (Fighter* fighter : this->fighters) {
+        logln(fighter->getNameId() + " : ");
+        // Ne jouent que les fighters non KO
+        if (!fighter->isKO()) {
+            this->runRoundFighter(fighter);
         }
     }
 }
 
-void BattleRoyale::runRoundFighter(FighterBot* bot) {
+void BattleRoyale::runRoundFighter(Fighter* fighter) {
+    // On retrouve le Bot :
+    FighterBot* bot = nullptr;
+    for (FighterBot* b : this->bots) {
+        if (b->getId() == fighter->getId()) {
+            bot = b;
+            break;
+        }
+    }
     // Demandons à notre bot ce qu'il veut faire . . . 
     Action* action = bot->choose(this->getArena());
     // Il renvoie nullptr : il ne veut visiblement rien faire
@@ -118,16 +134,16 @@ void BattleRoyale::runRoundFighter(FighterBot* bot) {
     } else {
         bot->display(" choisit " + action->getDisplay());
         // On construit la liste des fighters non KO
-        vector<Fighter*> fighters;
-        for (FighterBot* bot : this->bots) {
-            if (!bot->isKO()) {
-                fighters.push_back(bot);
+        vector<Fighter*> alive;
+        for (Fighter* f : this->fighters) {
+            if (!f->isKO()) {
+                alive.push_back(f);
             }
         }
         // On remplit l'action avec tout le nécessaire à son execution
         action->setArena(this->arena);
-        action->setFighters(fighters);
-        action->setFighter(bot);
+        action->setFighters(alive);
+        action->setFighter(fighter);
         // On vérifie que le choix est valide
         if (action->isValid()) {
             // Et on l'exécute !
@@ -143,11 +159,11 @@ void BattleRoyale::runRoundFighter(FighterBot* bot) {
 void BattleRoyale::cleanArena(int round) {
     for (FighterBot* bot : this->bots) {
         // Les bots KO et toujours dans l'arène
-        if (bot->isKO() && this->arena->contains(bot)) {
+        if (bot->isKO() && this->arena->contains(bot->getFighter())) {
             // ...sont retirés
             bot->display("", false);
             logln(" est évacué de l'arène...", RED);
-            this->arena->remove(bot);
+            this->arena->remove(bot->getFighter());
             // Gestion de la liste des KO
             bot->setKoRound(round);
             this->kos.push_back(bot);

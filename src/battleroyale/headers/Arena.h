@@ -35,6 +35,7 @@ public:
     bool contains(Fighter fighter);
 
     /** Supprimer Fighter de l'arène */
+    void remove(Fighter fighter);
     void remove(Fighter* fighter);
 
     /** Défensivement, l'arene n'expose que des Fighter et non des Fighter* */

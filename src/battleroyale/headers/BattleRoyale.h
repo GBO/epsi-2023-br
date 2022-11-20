@@ -19,6 +19,8 @@ private:
     vector<FighterBot*> bots;
     /** Une liste de tous les fighters KO dans leur ordre de KO. Pour les statistiques à posteriori */
     vector<FighterBot*> kos;
+    /** La liste des Fighters fiables de notre jeu */
+    vector<Fighter*> fighters;
     /** Un fighter winner pour les stats */
     FighterBot* winner;
 
@@ -37,7 +39,7 @@ private:
     /** Jouer un round */
     void runRound();
     /** Jouer le tour d'un Fighter dans le round */
-    void runRoundFighter(FighterBot* bot);
+    void runRoundFighter(Fighter* bot);
     /** Nettoyer l'arène à la fin du round */
     void cleanArena(int round);
 

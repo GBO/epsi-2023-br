@@ -27,10 +27,11 @@ bool Arena::contains(Fighter fighter) {
     return false;
 }
 
-void Arena::remove(Fighter* fighter) {
+void Arena::remove(Fighter* fighter) { this->remove(*fighter); }
+void Arena::remove(Fighter fighter) {
     unsigned int i = 0;
     while (i < this->fighters.size()) {
-        if (this->fighters[i] == fighter) {
+        if (this->fighters[i]->isMe(fighter)) {
             this->fighters.erase(this->fighters.begin() + i);
         } else {
             i++;

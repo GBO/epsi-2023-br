@@ -56,6 +56,7 @@ public:
 
     /** Test sur la position */
     bool isHere(int x, int y);
+    bool isHere(Fighter fighter);
     bool isHere(Fighter* fighter);
 
     /** Test d'identité : pour savoir si le Fighter en paramètre est le même de this

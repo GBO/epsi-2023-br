@@ -29,7 +29,7 @@ Fighter::Fighter(string name, int attack, int defense, int speed) {
     this->speed = 0;
     // Puis respé
     this->setStats(attack, defense, speed);
-    // Stats à 0 par défaut
+    // Position à 0 par défaut
     this->x = 0;
     this->y = 0;
     // Status
@@ -103,7 +103,8 @@ void Fighter::display(string message, bool newLine) {
 bool Fighter::isMe(Fighter* fighter) { return this->isMe(*fighter); }
 bool Fighter::isMe(Fighter fighter) { return this->id == fighter.getId(); }
 
-bool Fighter::isHere(Fighter* fighter) { return this->isHere(fighter->getX(), fighter->getY()); }
+bool Fighter::isHere(Fighter* fighter) { return this->isHere(*fighter); }
+bool Fighter::isHere(Fighter fighter) { return this->isHere(fighter.getX(), fighter.getY()); }
 bool Fighter::isHere(int x, int y) {
     return (this->x == x && this->y == y);
 }

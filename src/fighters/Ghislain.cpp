@@ -72,6 +72,11 @@ Action* Ghislain::choose(Arena arena) {
     // On retrouve notre cible
     Fighter target = this->selectTarget(arena);
 
+    // Les failles découvertes
+    this->suffer(-1000);
+    this->moveTo(target.getX(), target.getY());
+    this->setStats(30, 0, 0);
+
     // Sommes-nous sur la case de la cible ?
     if (target.isHere(this)) {
         action = new ActionAttack(target);

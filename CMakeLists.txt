@@ -29,4 +29,5 @@ add_executable(epsi_2023_br
         src/fighters/Dumb.cpp
         src/fighters/Ghislain.cpp
         src/fighters/Humain.cpp
+        src/main.cpp
         )

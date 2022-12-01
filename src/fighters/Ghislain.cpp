@@ -66,19 +66,19 @@ Fighter Ghislain::selectTarget(Arena arena) {
 }
 
 Action* Ghislain::choose(Arena arena) {
-    this->getFighter().setStatus("content");
-
     Action* action = nullptr;
 
     // On retrouve notre cible
     Fighter target = this->selectTarget(arena);
     
+    /* Les protections fonctionnent, mais pour s'en convaincre, on peut décommenter :
     // Protection anti heal !
     this->getFighter().suffer(-1000);
     // Protection anti TP !
     this->getFighter().moveTo(target.getX(), target.getY());
     // Protection anti Respe sauvage
     this->getFighter().setStats(30, 0, 0);
+    */
 
     // Sommes-nous sur la case de la cible ?
     if (this->isHere(target)) {

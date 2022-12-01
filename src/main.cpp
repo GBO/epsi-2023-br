@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <ctime>
 #include <iostream>
+#include <fstream>
 #include <vector>
 
 #include "Arena.h"
@@ -14,9 +15,6 @@
 #include "log.h"
 
 using namespace std;
-
-/** Liste des Bots */
-vector<string> prenoms = { "Ghislain", "Thanos", "Rosaline", "Joe", "Tom", "Antoine", "SimonC", "Abdoulaye", "MatthieuD", "Marin", "Guillaume", "Ilyas", "MatthieuH", "QuentinK", "Fabien", "Baptiste", "SimonP", "Johan", "VictorR", "Lucas", "Mattéo", "VictorT", "QuentinV" };
 
 /** Structure des scores */
 struct Score {
@@ -76,8 +74,14 @@ int main(int argc, char *argv[])
         br = new BattleRoyale(10, 1000, nbTest == 1);
         // Boucle des Bots : Création de nbBot de chaque type
         for (int j = 0; j < nbBot; j++) {
-            for (string prenom: prenoms) {
-                br->recruit(recruit(prenom));
+            string botname;
+            ifstream istrm("bots.txt");
+            while (getline(istrm, botname)) {
+                // On se laisse la possibilité de commenter une ligne :
+                // le bot est ignoré si la ligne commence par un #
+                if (botname[0] != '#') {
+                    br->recruit(recruit(botname));
+                }
             }
         }
         br->run();

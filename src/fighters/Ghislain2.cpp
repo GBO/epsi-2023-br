@@ -3,6 +3,7 @@
 
 #include "ActionMove.h"
 #include "ActionAttack.h"
+#include "ActionRespe.h"
 #include "Ghislain2.h"
 
 using namespace std;
@@ -87,7 +88,7 @@ Action* Ghislain2::choose(Arena arena) {
     }
 
     // Si toujours pas de cible
-    if (targetId == "") {
+    if (targetId == "" && arena.get().size() > 1) {
         // J'en choisi une !
         targetId = this->chooseTarget(arena);
         this->setStatus(targetId);
@@ -96,18 +97,21 @@ Action* Ghislain2::choose(Arena arena) {
     // Quoiqu'il arrive on met à jour notre status
     this->setStatus(targetId);
 
-    // On récupère le fighter associé à notre ID cible
-    Fighter target = arena.getById(targetId)[0];
-
     Action* action = nullptr;
+    if (targetId != "") {
+        // On récupère le fighter associé à notre ID cible
+        Fighter target = arena.getById(targetId)[0];
 
-    // Sommes-nous sur la case de la cible ?
-    if (this->isHere(target)) {
-        action = new ActionAttack(target);
+        // Sommes-nous sur la case de la cible ?
+        if (this->isHere(target)) {
+            action = new ActionAttack(target);
 
-    // Sinon, allons-y !
+        // Sinon, allons-y !
+        } else {
+            action = new ActionMove(target.getX() - this->getX(), target.getY() - this->getY());
+        }
     } else {
-        action = new ActionMove(target.getX() - this->getX(), target.getY() - this->getY());
+        action = new ActionRespe(0, 0, 30);
     }
 
     return action;

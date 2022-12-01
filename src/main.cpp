@@ -9,6 +9,9 @@
 
 #include "Dumb.h"
 #include "Ghislain.h"
+#include "Ghislain2.h"
+#include "MatthieuH.h"
+#include "Rambaud.h"
 #include "Humain.h"
 // #include "Thanos.h"
 
@@ -33,6 +36,9 @@ FighterBot* recruit(string prenom) {
     FighterBot* bot;
     if (prenom == "Dumb") { bot = new Dumb; }
     else if (prenom == "Ghislain") { bot = new Ghislain; }
+    else if (prenom == "Ghislain2") { bot = new Ghislain2; }
+    else if (prenom == "MatthieuH") { bot = new MatthieuH; }
+    else if (prenom == "Rambaud") { bot = new Rambaud; }
     //else if (prenom == "Thanos") { bot = new Thanos; }
     else { bot = new Dumb(prenom); }
     // On gère les scores (y a-t-il déjà une entrée de score pour ce prénom)

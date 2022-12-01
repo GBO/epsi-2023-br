@@ -39,9 +39,13 @@ private:
     /** Jouer un round */
     void runRound(int round);
     /** Jouer le tour d'un Fighter dans le round */
-    void runRoundFighter(Fighter* bot);
+    void runRoundFighter(int round, Fighter* bot);
     /** Nettoyer l'arène à la fin du round */
-    void cleanArena(int round);
+    void cleanArena(int round, Fighter* fighter, FighterBot* bot);
+    /** Effectuer un LevelUp pour un couple Bot/Fighter */
+    void levelup(Fighter* fighter, FighterBot* bot);
+    /** Effectuer une action pour un couple Bot/Fighter */
+    void doAction(Fighter* fighter, FighterBot* bot, Action* action);
 
 public:
     /** Les constructeurs */

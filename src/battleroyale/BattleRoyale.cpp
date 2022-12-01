@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Action.h"
+#include "ActionRespe.h"
 #include "BattleRoyale.h"
 #include "Fighter.h"
 #include "log.h"
@@ -104,14 +105,12 @@ void BattleRoyale::runRound(int round) {
     for (Fighter* fighter : this->fighters) {
         // Ne jouent que les fighters non KO
         if (!fighter->isKO()) {
-            this->runRoundFighter(fighter);
-            // On sort les Fighter KO de l'arène
-            this->cleanArena(round);
+            this->runRoundFighter(round, fighter);
         }
     }
 }
 
-void BattleRoyale::runRoundFighter(Fighter* fighter) {
+void BattleRoyale::runRoundFighter(int round, Fighter* fighter) {
     // On retrouve le Bot :
     FighterBot* bot = nullptr;
     for (FighterBot* b : this->bots) {
@@ -128,30 +127,36 @@ void BattleRoyale::runRoundFighter(Fighter* fighter) {
         bot->display(" ne fait rien . . .");
     } else {
         bot->display(" choisit " + action->getDisplay());
-        // On construit la liste des fighters non KO
-        vector<Fighter*> alive;
-        for (Fighter* f : this->fighters) {
-            if (!f->isKO()) {
-                alive.push_back(f);
-            }
-        }
-        // On remplit l'action avec tout le nécessaire à son execution
-        action->setArena(this->arena);
-        action->setFighters(alive);
-        action->setFighter(fighter);
-        // On vérifie que le choix est valide
-        if (action->isValid()) {
-            // Et on l'exécute !
-            action->perform();
-        } else {
-            // ...Sinon, on indique qu'on exécutera pas l'action
-            logln("Action interdite !!", RED);
-        }
-        delete action;
+        this->doAction(fighter, bot, action);
+        // On sort les Fighter KO de l'arène
+        this->cleanArena(round, fighter, bot);
     }
 }
 
-void BattleRoyale::cleanArena(int round) {
+void BattleRoyale::doAction(Fighter* fighter, FighterBot* bot, Action* action) {
+    // On construit la liste des fighters non KO
+    vector<Fighter*> alive;
+    for (Fighter* f : this->fighters) {
+        if (!f->isKO()) {
+            alive.push_back(f);
+        }
+    }
+    // On remplit l'action avec tout le nécessaire à son execution
+    action->setArena(this->arena);
+    action->setFighters(alive);
+    action->setFighter(fighter);
+    // On vérifie que le choix est valide
+    if (action->isValid()) {
+        // Et on l'exécute !
+        action->perform();
+    } else {
+        // ...Sinon, on indique qu'on exécutera pas l'action
+        logln("Action interdite !!", RED);
+    }
+    delete action;
+}
+
+void BattleRoyale::cleanArena(int round, Fighter* fighter, FighterBot* fighterbot) {
     for (FighterBot* bot : this->bots) {
         // Les bots KO et toujours dans l'arène
         if (bot->isKO() && this->arena->contains(bot->getFighter())) {
@@ -162,7 +167,24 @@ void BattleRoyale::cleanArena(int round) {
             // Gestion de la liste des KO
             bot->setKoRound(round);
             this->kos.push_back(bot);
+            // On levelup le Fighter ayant provoqué ce KO
+            this->levelup(fighter, fighterbot);
         }
     }
 }
+
+void BattleRoyale::levelup(Fighter* fighter, FighterBot* bot) {
+    // On soigne la moitié des dégats reçus
+    fighter->heal((100 - fighter->getLife()) / 2);
+    // On soigne la moitié des dégats reçus
+    fighter->levelup();
+    // On demande le levelup au bot
+    ActionRespe* respe = bot->levelup();
+    // Par défaut, on augmente les stats : +2 +2 +1
+    if (respe == nullptr) {
+        respe = new ActionRespe(fighter->getAttack() + 2, fighter->getDefense() + 2, fighter->getSpeed() + 1);
+    }
+    this->doAction(fighter, bot, respe);
+}
+
 

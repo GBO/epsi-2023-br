@@ -9,7 +9,10 @@
 using namespace std;
 
 /** ActionAttack
- * Attaquer un Fighter
+ * Action concrète d'Attack.
+ * 
+ * Demande un Fighter (cible) à la création.
+ * L'attaque n'est possible que si la cible partage les mêmes coordonnées avec l'attaquant.
  **/
 class ActionAttack : public Action {
 private:

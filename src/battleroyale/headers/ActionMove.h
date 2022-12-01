@@ -9,7 +9,11 @@
 using namespace std;
 
 /** ActionMove
- * Se déplacer dans une direction donnée
+ * Action concrète de déplacement
+ * 
+ * Requiert une direction (x,y) à la création.
+ * Quelque soit les valeurs de direction, seule le signe est prise en compte.
+ * Le déplacement n'est possible que si l'arrivée est toujours dans l'arène.
  */
 class ActionMove : public Action {
 private:

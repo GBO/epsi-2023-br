@@ -9,7 +9,7 @@
 using namespace std;
 
 /** Arena
- * L'arène où tout se déroule, et contenant nos Fighter
+ * L'arène où tout se déroule, et contenant les Fighter
  */
 class Arena {
 private:

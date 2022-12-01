@@ -9,7 +9,10 @@
 using namespace std;
 
 /** ActionRespe
- * Permet de mettre à jour ces stats
+ * Action concrète de respécialisation
+ * 
+ * Requiert les nouvelles stats pour se respécialiser.
+ * L'action est valide si elle n'enfreint par les règles des stats
  */
 class ActionRespe : public Action {
 private:

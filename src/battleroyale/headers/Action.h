@@ -10,7 +10,8 @@
 using namespace std;
 
 /** Action abstraite
- * Définit une action qu'un Fighter peut choisir quand on lui demande
+ * Définit une action qu'un Bot peut choisir.
+ * Les méthodes isValid et perform sont à implémenter dans les actions concrètes
  */
 class Action {
 private:

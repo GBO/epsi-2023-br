@@ -56,6 +56,8 @@ void BattleRoyale::run() {
     // On fait autant de round qu'il est possible d'en faire (le roundLimit est notre limite)
     while (this->nbFighterAlive() > 1 && round < this->roundLimit) {
         logln("");
+        // Effacement de la console...
+        cout << "\x1B[2J\x1B[H";
         log("#####  ROUND ", GREEN);
         log(round, WHITE);
         logln("  #####", GREEN);
@@ -102,7 +104,6 @@ void BattleRoyale::runRound(int round) {
     for (Fighter* fighter : this->fighters) {
         // Ne jouent que les fighters non KO
         if (!fighter->isKO()) {
-            logln(fighter->getNameId() + " : ");
             this->runRoundFighter(fighter);
             // On sort les Fighter KO de l'arène
             this->cleanArena(round);

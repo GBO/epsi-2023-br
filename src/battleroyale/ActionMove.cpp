@@ -27,17 +27,15 @@ string ActionMove::getDisplay() {
 }
 
 bool ActionMove::isValid() {
-    int fighterx = this->fighter->getX();
-    int fightery = this->fighter->getY();
-
-    // Le test compliqué... Ca doit être bon, m'enfin . . . ^_^'
+    // On calcule la position hypothétique
+    int fighterx = this->fighter->getX() + this->x;
+    int fightery = this->fighter->getY() + this->y;
+    // On retourne true si elle bien dans l'arène
     return 
-          (this->x == 0) ||
-        (((this->x < 0) && (fighterx > 0)) ||
-         ((this->x > 0) && (fighterx < (this->arena->getWidth()-1)))) &&
-          (this->y == 0) ||
-        (((this->y < 0) && (fightery > 0)) ||
-         ((this->y > 0) && (fightery < (this->arena->getHeight()-1))));
+        fighterx >= 0 &&
+        fighterx < this->arena->getWidth() && 
+        fightery >= 0 &&
+        fightery < this->arena->getHeight();
 }
 
 void ActionMove::perform() {

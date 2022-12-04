@@ -42,24 +42,23 @@ Fighter::Fighter(string name, int attack, int defense, int speed) {
 Fighter::~Fighter() { }
 
 void Fighter::setStats(int attack, int defense, int speed) {
-    if (this->attack + this->defense + this->speed > 0) {
-        // On annonce une respé si les stats n'étaient pas toutes à 0
-        this->display(" se respécialise.", BLUE);
-    }
-
     // Controle de valeurs valides
     if (attack >= 0 && defense >= 0 && speed >= 0 && (attack + defense + speed <= 30)) {
         this->attack = attack;
         this->defense = defense;
         this->speed = speed;
-        this->display(" a initialisé ses stats.", BLUE);
     } else {
         // Sinon fallback aux valeurs par défaut
         this->attack = 10;
         this->defense = 10;
         this->speed = 10;
-        this->display(" avait des statistiques non valides...", RED);
     }
+    this->display(" a initialisé ses stats : ", false);
+    log(this->attack, RED);
+    log("/");
+    log(this->defense, GREEN);
+    log("/");
+    logln(this->speed, BLUE);
 }
 
 /** Accesseurs */
@@ -77,7 +76,10 @@ string Fighter::getStatus() { return this->status; }
 void Fighter::setStatus(string status) {
     if (this->status != status) {
         this->status = status;
-        this->display(" change de status : '" + status + "'");
+        // this->display(" change de status : '" + status + "'");
+        this->display("", false);
+        log(" change de status : ");
+        logln(status, GREEN);
     }
 }
 
@@ -86,21 +88,28 @@ void Fighter::display(string message) { this->display(message, true); }
 void Fighter::display(string message, bool newLine) {
     log(this->name, BLUE);
     log(this->shortId);
-    log(" (");
-    log(this->attack, RED);
-    log("/");
-    log(this->defense, GREEN);
-    log("/");
-    log(this->speed, BLUE);
-    log(") (");
-    log(this->x);
-    log("x");
-    log(this->y);
-    log(") [");
-    log(this->life, RED);
-    log("] [");
-    log(this->status, GREEN);
+    // Stats
+    //log(" (");
+    //log(this->attack, RED);
+    //log("/");
+    //log(this->defense, GREEN);
+    //log("/");
+    //log(this->speed, BLUE);
+    //log(")");
+    // Position
+    //log(" (");
+    //log(this->x);
+    //log("x");
+    //log(this->y);
+    //log(")");
+    // Niveau de vie
+    log("[");
+    log(this->life, GREEN);
     log("]");
+    // Status
+    //log(" [");
+    //log(this->status, GREEN);
+    //log("]");
     log(message);
     if (newLine) {
         logln("");

@@ -84,6 +84,10 @@ int main(int argc, char *argv[])
                 }
             }
         }
+        if (nbTest == 1) {
+            log("Appuyez sur entrée pour démarrer . . . ", BLUE);
+            cin.ignore();
+        }
         br->run();
 
         for (Fighter fighter : br->getArena().get()) {

@@ -42,7 +42,8 @@ Fighter Ghislain::selectTarget(Arena arena) {
         // ...On retient son Id
         this->targetId = target.getId();
         // ...Et on le dit :)
-        this->display(" désigne comme cible " + target.getNameId());
+        this->display(" désigne comme cible : ", false);
+        target.display();
 
     // Sinon, on cherche notre cible dans l'arène
     } else {
@@ -67,6 +68,7 @@ Fighter Ghislain::selectTarget(Arena arena) {
 
 Action* Ghislain::choose(Arena arena) {
     Action* action = nullptr;
+    this->setStatus("content");
 
     // On retrouve notre cible
     Fighter target = this->selectTarget(arena);

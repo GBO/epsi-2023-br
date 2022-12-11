@@ -7,6 +7,8 @@
 #include "Arena.h"
 #include "Fighter.h"
 
+#define AP_UNIT 3
+
 using namespace std;
 
 /** Action abstraite
@@ -17,6 +19,8 @@ class Action {
 private:
     /** Simple nom de l'action */
     string name;
+    /** Cout de l'action en AP (Action Point) */
+    int ap;
 
 protected:
     /** Les informations disponibles aux héritiers pour opérer l'action */
@@ -26,11 +30,12 @@ protected:
 
 public:
     /** Constructeur simple avec le nom obligatoire */
-    Action(string name);
+    Action(string name, int ap);
     virtual ~Action();
 
     /** Accesseurs (getters) / mutateurs (setters) */
     string getName();
+    int getAp();
     void setArena(Arena* arena);
     void setFighters(vector<Fighter*> fighters);
     void setFighter(Fighter* fighter);

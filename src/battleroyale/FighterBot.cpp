@@ -4,11 +4,12 @@
 
 using namespace std;
 
-FighterBot::FighterBot(string name, int attack, int defense, int speed) {
+FighterBot::FighterBot(string name, int attack, int defense, int speed, int intention) {
     this->name = name;
     this->attack = attack;
     this->defense = defense;
     this->speed = speed;
+    this->intention = intention;
     this->fighter = nullptr;
     this->koRound = 0;
 }
@@ -17,7 +18,7 @@ FighterBot::~FighterBot() {
 }
 
 Fighter* FighterBot::init() {
-    this->fighter = new Fighter(this->name, this->attack, this->defense, this->speed);
+    this->fighter = new Fighter(this->name, this->attack, this->defense, this->speed, this->intention);
     this->id = this->fighter->getId();
     return this->fighter;
 }
@@ -40,8 +41,10 @@ string FighterBot::getShortId() { return this->fighter->getShortId(); }
 int FighterBot::getAttack() { return this->fighter->getAttack(); }
 int FighterBot::getDefense() { return this->fighter->getDefense(); }
 int FighterBot::getSpeed() { return this->fighter->getSpeed(); }
+int FighterBot::getIntention() { return this->fighter->getIntention(); }
 int FighterBot::getLife() { return this->fighter->getLife(); }
 int FighterBot::getLevel() { return this->fighter->getLevel(); }
+int FighterBot::getAp() { return this->fighter->getAp(); }
 int FighterBot::getX() { return this->fighter->getX(); }
 int FighterBot::getY() { return this->fighter->getY(); }
 string FighterBot::getStatus() { return this->fighter->getStatus(); }

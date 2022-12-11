@@ -20,6 +20,7 @@ private:
     int attack;
     int defense;
     int speed;
+    int intention;
     /** ID de Bot (commun au Fighter) */
     string id;
     /** Le round de KO */
@@ -30,7 +31,7 @@ private:
 
 public:
     /** Constructeur */
-    FighterBot(string name, int attack, int defense, int speed);
+    FighterBot(string name, int attack, int defense, int speed, int intention);
     virtual ~FighterBot();
 
     /** Accesseurs (getters) / mutateurs (setters) */
@@ -57,8 +58,10 @@ public:
     int getAttack();
     int getDefense();
     int getSpeed();
+    int getIntention();
     int getLife();
     int getLevel();
+    int getAp();
     int getX();
     int getY();
     string getStatus();

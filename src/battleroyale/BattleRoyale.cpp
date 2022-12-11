@@ -119,41 +119,67 @@ void BattleRoyale::runRoundFighter(int round, Fighter* fighter) {
             break;
         }
     }
+    // Boucle des points d'actions
+    int ap = AP_UNIT;
+    fighter->initAp();
     log("# ", GREEN);
-    // Demandons à notre bot ce qu'il veut faire . . . 
-    Action* action = bot->choose(this->getArena());
-    // Il renvoie nullptr : il ne veut visiblement rien faire
-    if (action == nullptr) {
-        bot->display(" ne fait rien . . .");
-    } else {
-        bot->display(" choisit " + action->getDisplay());
-        this->doAction(fighter, bot, action);
-        // On sort les Fighter KO de l'arène
+    fighter->display(" : ", false);
+    log(fighter->getAp(), BLUE);
+    logln("AP", BLUE);
+    while (fighter->getAp() >= AP_UNIT && ap > 0 && this->nbFighterAlive() > 1) {
+        ap = this->doAction(fighter, bot, bot->choose(this->getArena()));
+        fighter->consumeAp(ap);
+        // On sort les éventuels Fighter KO de l'arène
         this->cleanArena(round, fighter, bot);
     }
 }
 
-void BattleRoyale::doAction(Fighter* fighter, FighterBot* bot, Action* action) {
-    // On construit la liste des fighters non KO
-    vector<Fighter*> alive;
-    for (Fighter* f : this->fighters) {
-        if (!f->isKO()) {
-            alive.push_back(f);
-        }
-    }
-    // On remplit l'action avec tout le nécessaire à son execution
-    action->setArena(this->arena);
-    action->setFighters(alive);
-    action->setFighter(fighter);
-    // On vérifie que le choix est valide
-    if (action->isValid()) {
-        // Et on l'exécute !
-        action->perform();
+int BattleRoyale::doAction(Fighter* fighter, FighterBot* bot, Action* action) { return this->doAction(fighter, bot, action, false); }
+int BattleRoyale::doAction(Fighter* fighter, FighterBot* bot, Action* action, bool free) {
+    int ap = 0;
+
+    if (action == nullptr) {
+        // Il renvoie nullptr : il ne veut visiblement rien faire
+        bot->display(" ne fait rien . . .");
+
     } else {
-        // ...Sinon, on indique qu'on exécutera pas l'action
-        logln("Action interdite !!", RED);
+        bot->display(" choisit " + action->getDisplay(), false);
+        log(" (");
+        if (free) {
+            log("-AP", BLUE);
+        } else {
+            log(to_string(action->getAp()) + "/" + to_string(fighter->getAp()) + "AP", BLUE);
+        }
+        logln(")");
+        // On construit la liste des fighters non KO
+        vector<Fighter*> alive;
+        for (Fighter* f : this->fighters) {
+            if (!f->isKO()) {
+                alive.push_back(f);
+            }
+        }
+        // On remplit l'action avec tout le nécessaire à son execution
+        action->setArena(this->arena);
+        action->setFighters(alive);
+        action->setFighter(fighter);
+
+        // Le Fighter a-t-il sufffisamment d'AP pour l'action ?
+        if (!free && fighter->getAp() < action->getAp()) {
+            logln("Action interdite : pas assez d'AP !", RED);
+        
+        // L'action est-elle valide ?
+        } else if (!action->isValid()) {
+            // ...Sinon, on indique qu'on exécutera pas l'action
+            logln("Action interdite : action invalide !", RED);
+        
+        // Sinon, c'est qu'on est bon pour l'exécuter
+        } else {
+            action->perform();
+            ap = action->getAp();
+        }
+        delete action;
     }
-    delete action;
+    return ap;
 }
 
 void BattleRoyale::cleanArena(int round, Fighter* fighter, FighterBot* fighterbot) {
@@ -182,9 +208,9 @@ void BattleRoyale::levelup(Fighter* fighter, FighterBot* bot) {
     ActionRespe* respe = bot->levelup();
     // Par défaut, on augmente les stats : +2 +2 +1
     if (respe == nullptr) {
-        respe = new ActionRespe(fighter->getAttack() + 2, fighter->getDefense() + 2, fighter->getSpeed() + 1);
+        respe = new ActionRespe(fighter->getAttack() + 2, fighter->getDefense() + 2, fighter->getSpeed() + 1, fighter->getIntention());
     }
-    this->doAction(fighter, bot, respe);
+    this->doAction(fighter, bot, respe, true);
 }
 
 

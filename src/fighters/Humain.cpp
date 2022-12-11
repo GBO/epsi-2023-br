@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Humain::Humain() : FighterBot("Humain", 10, 10, 10) {
+Humain::Humain() : FighterBot("Humain", 10, 10, 10, 10) {
 }
 
 Action* Humain::choose(Arena arena) {

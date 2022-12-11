@@ -4,7 +4,7 @@
 
 using namespace std;
 
-ActionAttack::ActionAttack(Fighter fighter) : Action("Attack") {
+ActionAttack::ActionAttack(Fighter fighter) : Action("Attack", AP_UNIT * 2) {
     this->targetId = fighter.getId();
     this->targetName = fighter.getNameId();
 }

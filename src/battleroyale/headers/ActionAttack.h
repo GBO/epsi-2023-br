@@ -22,7 +22,9 @@ private:
     string targetName;
 
 public:
-    /** Constructeur avec fighter en paramètre */
+    /** Constructeur de ActionAttack
+     * @param fighter La cible de l'attaque
+     */
     ActionAttack(Fighter fighter);
 
     /** On redéfinit l'affichage */

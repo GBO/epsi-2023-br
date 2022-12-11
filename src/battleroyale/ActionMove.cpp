@@ -4,7 +4,7 @@
 
 using namespace std;
 
-ActionMove::ActionMove(int x, int y) : Action("Move") {
+ActionMove::ActionMove(int x, int y) : Action("Move", AP_UNIT) {
     // Raccourci ici : on trasforme les valeurs en -1, 0 ou 1
     if (x > 0) {
         this->x = 1;

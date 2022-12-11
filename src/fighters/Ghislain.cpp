@@ -7,7 +7,7 @@
 
 using namespace std;
 
-Ghislain::Ghislain() : FighterBot("Ghislain", 15, 15, 0) {
+Ghislain::Ghislain() : FighterBot("Ghislain", 10, 10, 0, 20) {
     this->targetId = "";
 }
 

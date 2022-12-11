@@ -45,7 +45,8 @@ private:
     /** Effectuer un LevelUp pour un couple Bot/Fighter */
     void levelup(Fighter* fighter, FighterBot* bot);
     /** Effectuer une action pour un couple Bot/Fighter */
-    void doAction(Fighter* fighter, FighterBot* bot, Action* action);
+    int doAction(Fighter* fighter, FighterBot* bot, Action* action);
+    int doAction(Fighter* fighter, FighterBot* bot, Action* action, bool free);
 
 public:
     /** Les constructeurs */

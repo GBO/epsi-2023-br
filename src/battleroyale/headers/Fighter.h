@@ -14,17 +14,24 @@ private:
     string id;
     string shortId;
 
-    /** Statisitques réglables par les héritiers */
+    // Statisitques réglables par les héritiers
+    /** Niveau d'attaque utilisée pour calculer les dégâts dans la méthode `assault` */
     int attack;
+    /** Niveau de défense utilisée pour minimiser les dégâts dans la méthode `suffer` */
     int defense;
+    /** Niveau de vitesse utilisée pour comparer (trier) les Fighter entre eux dans la méthode `compare` */
     int speed;
+    /** Niveau d'intention utiliser pour enchainser des actions */
+    int intention;
 
     /** Attributs gérés par le moteur de jeu */
+
     /** Niveau de vie du combattant */
     int life;
-
-    /** Level du Fighter permettant de calculer les stats possibles */
+    /** Level du Fighter permettant de calculer le max de stats possibles */
     int level;
+    /** Nombre d'ActionPoint disponibles */
+    int ap;
 
     /** Position */
     int x, y;
@@ -34,7 +41,7 @@ private:
 
 public:
     /** Constructeurs */
-    Fighter(string name, int attack, int defense, int speed);
+    Fighter(string name, int attack, int defense, int speed, int intention);
     virtual ~Fighter();
 
     /** Accesseurs (getters) / mutateurs (setters) */
@@ -45,11 +52,13 @@ public:
     int getAttack();
     int getDefense();
     int getSpeed();
+    int getIntention();
     int getLife();
     int getLevel();
+    int getAp();
     int getX();
     int getY();
-    void setStats(int attack, int defense, int speed);
+    void setStats(int attack, int defense, int speed, int intention);
     string getStatus();
     void setStatus(string status);
 
@@ -88,6 +97,10 @@ public:
     void heal(int damage);
     /** Incrémenter le niveau */
     void levelup();
+    /** Gestion des AP : init en début de tour */
+    void initAp();
+    /** Consommation à chaque action */
+    void consumeAp(int ap);
 };
 
 #endif //BATTLEROYALE_FIGHTER_H

@@ -9,7 +9,7 @@
 
 using namespace std;
 
-Fighter::Fighter(string name, int attack, int defense, int speed) {
+Fighter::Fighter(string name, int attack, int defense, int speed, int intention) {
     this->name = name;
     // Calcul d'ID discutable basé sur l'adresse de l'instance...
     // Les 3 lignes en dessous ne servent qu'à convertir le pointeur this en chaine de caractère ^_^'
@@ -27,6 +27,9 @@ Fighter::Fighter(string name, int attack, int defense, int speed) {
     // Level
     this->level = 0;
 
+    // ActionPoint disponible
+    this->ap = 0;
+
     // Position à 0 par défaut
     this->x = 0;
     this->y = 0;
@@ -37,31 +40,36 @@ Fighter::Fighter(string name, int attack, int defense, int speed) {
     this->attack = 0;
     this->defense = 0;
     this->speed = 0;
+    this->intention = 0;
     // Puis respé
-    this->setStats(attack, defense, speed);
+    this->setStats(attack, defense, speed, intention);
 }
 
 /** Destructeur vide par defaut */
 Fighter::~Fighter() { }
 
-void Fighter::setStats(int attack, int defense, int speed) {
+void Fighter::setStats(int attack, int defense, int speed, int intention) {
     // Controle de valeurs valides
-    if (attack >= 0 && defense >= 0 && speed >= 0 && (attack + defense + speed <= (30 + (5 * this->level)))) {
+    if (attack >= 0 && defense >= 0 && speed >= 0 && intention >= 0 && (attack + defense + speed + intention <= (40 + (5 * this->level)))) {
         this->attack = attack;
         this->defense = defense;
         this->speed = speed;
+        this->intention = intention;
     } else {
         // Sinon fallback aux valeurs par défaut
         this->attack = 10;
         this->defense = 10;
         this->speed = 10;
+        this->intention = 10;
     }
     this->display(" a initialisé ses stats : ", false);
     log(this->attack, RED);
     log("/");
     log(this->defense, GREEN);
     log("/");
-    logln(this->speed, BLUE);
+    log(this->speed, BLUE);
+    log("/");
+    logln(this->intention, WHITE);
 }
 
 /** Accesseurs */
@@ -72,8 +80,10 @@ string Fighter::getShortId() { return this->shortId; }
 int Fighter::getAttack() { return this->attack; }
 int Fighter::getDefense() { return this->defense; }
 int Fighter::getSpeed() { return this->speed; }
+int Fighter::getIntention() { return this->intention; }
 int Fighter::getLife() { return this->life; }
 int Fighter::getLevel() { return this->level; }
+int Fighter::getAp() { return this->ap; }
 int Fighter::getX() { return this->x; }
 int Fighter::getY() { return this->y; }
 string Fighter::getStatus() { return this->status; }
@@ -83,7 +93,7 @@ void Fighter::setStatus(string status) {
         // this->display(" change de status : '" + status + "'");
         this->display("", false);
         log(" change de status : ");
-        logln(status, GREEN);
+        logln(status, BLUE);
     }
 }
 
@@ -99,6 +109,8 @@ void Fighter::display(string message, bool newLine) {
     //log(this->defense, GREEN);
     //log("/");
     //log(this->speed, BLUE);
+    //log("/");
+    //log(this->intention, WHITE);
     //log(")");
     // Position
     //log(" (");
@@ -108,7 +120,7 @@ void Fighter::display(string message, bool newLine) {
     //log(")");
     // Niveau de vie
     log("[");
-    log(this->life, GREEN);
+    log(this->life, BLUE);
     log("]");
     // Status
     //log(" [");
@@ -154,9 +166,11 @@ void Fighter::assault(Fighter* target) {
         // Base
         base +
         // Bonus attaque
-        ((base * this->attack) / 30) +
+        ((base * this->attack) / 40) +
         // Alea
-        ((rand() % 10) - 5);
+        0
+        //((rand() % 10) - 5)
+        ;
 
     target->suffer(damage);
 }
@@ -177,9 +191,10 @@ void Fighter::suffer(int damage) {
             // Dégâts reçus
             (damage -
             // Bonus stats defense
-            (((damage / 2) * this->defense) / 30) -
+            (((damage / 2) * this->defense) / 40) -
             // Alea
-            ((rand() % 5) - 2)
+            0
+            //((rand() % 5) - 2)
             );
         this->life = this->life - effective;
         this->display("", false);
@@ -188,7 +203,7 @@ void Fighter::suffer(int damage) {
         log("(");
         log(damage, BLUE);
         log(")");
-        logln(" points de dégâts.");
+        logln(" points de dégâts.", RED);
     }
 }
 
@@ -202,13 +217,21 @@ void Fighter::heal(int damage) {
         this->display("", false);
         log(" regagne ", GREEN);
         log(damage, GREEN);
-        logln(" points de vie.");
+        logln(" points de vie.", GREEN);
     }
 }
 
 /** Incrémenter le niveau */
 void Fighter::levelup() {
     this->level++;
+}
+
+void Fighter::initAp() {
+    this->ap = 4 + this->intention / 5;
+}
+
+void Fighter::consumeAp(int ap) {
+    this->ap -= ap;
 }
 
 /**

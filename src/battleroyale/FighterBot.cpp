@@ -22,6 +22,11 @@ Fighter* FighterBot::init() {
     return this->fighter;
 }
 
+ActionRespe* FighterBot::levelup() {
+    // Implémentation par défaut pour rétro-compatibilité : rien :)
+    return nullptr;
+}
+
 Fighter FighterBot::getFighter() { return *(this->fighter); }
 
 int FighterBot::getKoRound() { return this->koRound; }
@@ -36,6 +41,7 @@ int FighterBot::getAttack() { return this->fighter->getAttack(); }
 int FighterBot::getDefense() { return this->fighter->getDefense(); }
 int FighterBot::getSpeed() { return this->fighter->getSpeed(); }
 int FighterBot::getLife() { return this->fighter->getLife(); }
+int FighterBot::getLevel() { return this->fighter->getLevel(); }
 int FighterBot::getX() { return this->fighter->getX(); }
 int FighterBot::getY() { return this->fighter->getY(); }
 string FighterBot::getStatus() { return this->fighter->getStatus(); }

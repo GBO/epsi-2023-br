@@ -9,7 +9,7 @@ using namespace std;
  * Le combattant de base */
 class Fighter {
 private:
-    /** Nom / identifiants du combattant */
+    /** Nom et identifiants du combattant */
     string name;
     string id;
     string shortId;
@@ -22,6 +22,9 @@ private:
     /** Attributs gérés par le moteur de jeu */
     /** Niveau de vie du combattant */
     int life;
+
+    /** Level du Fighter permettant de calculer les stats possibles */
+    int level;
 
     /** Position */
     int x, y;
@@ -43,15 +46,18 @@ public:
     int getDefense();
     int getSpeed();
     int getLife();
+    int getLevel();
     int getX();
     int getY();
     void setStats(int attack, int defense, int speed);
     string getStatus();
     void setStatus(string status);
 
-    /** Affichage */
+    /** Affichage simple */
     void display();
+    /** Affichage suivi d'un message */
     void display(string message);
+    /** Affichage suivi d'un message avec option nouvelle ligne ou non */
     void display(string message, bool newLine);
 
     /** Test sur la position */
@@ -59,7 +65,7 @@ public:
     bool isHere(Fighter fighter);
     bool isHere(Fighter* fighter);
 
-    /** Test d'identité : pour savoir si le Fighter en paramètre est le même de this
+    /** Test d'identité : pour savoir si le Fighter en paramètre est le même que this
      * La comparaison se fera sur l'ID */
     bool isMe(Fighter* fighter);
     bool isMe(Fighter fighter);
@@ -78,6 +84,10 @@ public:
     /** Attaquer et subir des dégâts */
     void assault(Fighter* fighter);
     void suffer(int damage);
+    /** Recevoir du soin */
+    void heal(int damage);
+    /** Incrémenter le niveau */
+    void levelup();
 };
 
 #endif //BATTLEROYALE_FIGHTER_H

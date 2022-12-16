@@ -15,7 +15,7 @@ string ActionRespe::getDisplay() {
 }
 
 bool ActionRespe::isValid() {
-    return (this->attack + this->defense + this->speed) <= 30;
+    return (this->attack + this->defense + this->speed) <= (30 + (5 * fighter->getLevel()));
 }
 
 void ActionRespe::perform() {

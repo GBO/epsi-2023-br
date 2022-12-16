@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "Action.h"
+#include "ActionRespe.h"
 #include "Arena.h"
 #include "Fighter.h"
 
@@ -45,6 +46,9 @@ public:
     /** Méthode abstraite de choix de l'action */
     virtual Action* choose(Arena arena) = 0;
 
+    /** Méthode abstraite de choix de l'action */
+    virtual ActionRespe* levelup();
+
     /** Méthodes Fighter encapsulées et surtout autorisées */
     string getName();
     string getNameId();
@@ -54,6 +58,7 @@ public:
     int getDefense();
     int getSpeed();
     int getLife();
+    int getLevel();
     int getX();
     int getY();
     string getStatus();

@@ -24,6 +24,9 @@ Fighter::Fighter(string name, int attack, int defense, int speed) {
     // Vie
     this->life = 100;
 
+    // Level
+    this->level = 0;
+
     // Position à 0 par défaut
     this->x = 0;
     this->y = 0;
@@ -43,7 +46,7 @@ Fighter::~Fighter() { }
 
 void Fighter::setStats(int attack, int defense, int speed) {
     // Controle de valeurs valides
-    if (attack >= 0 && defense >= 0 && speed >= 0 && (attack + defense + speed <= 30)) {
+    if (attack >= 0 && defense >= 0 && speed >= 0 && (attack + defense + speed <= (30 + (5 * this->level)))) {
         this->attack = attack;
         this->defense = defense;
         this->speed = speed;
@@ -70,6 +73,7 @@ int Fighter::getAttack() { return this->attack; }
 int Fighter::getDefense() { return this->defense; }
 int Fighter::getSpeed() { return this->speed; }
 int Fighter::getLife() { return this->life; }
+int Fighter::getLevel() { return this->level; }
 int Fighter::getX() { return this->x; }
 int Fighter::getY() { return this->y; }
 string Fighter::getStatus() { return this->status; }
@@ -179,13 +183,32 @@ void Fighter::suffer(int damage) {
             );
         this->life = this->life - effective;
         this->display("", false);
-        log(" a subi ");
+        log(" subi ", RED);
         log(effective, RED);
         log("(");
         log(damage, BLUE);
         log(")");
         logln(" points de dégâts.");
     }
+}
+
+/**
+ * Etre soigné.
+ * Aucun aléa : on soigne des points indiqués (dans la limite de 100 points de vie)
+ */
+void Fighter::heal(int damage) {
+    if (damage > 0) {
+        this->life = this->life + damage;
+        this->display("", false);
+        log(" regagne ", GREEN);
+        log(damage, GREEN);
+        logln(" points de vie.");
+    }
+}
+
+/** Incrémenter le niveau */
+void Fighter::levelup() {
+    this->level++;
 }
 
 /**

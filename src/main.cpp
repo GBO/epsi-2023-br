@@ -51,6 +51,42 @@ int main(int argc, char *argv[])
     srand(time(NULL));
 
     logln("EPSI Battle Royale", BLUE);
+    /**
+    logln("EPSI Battle Royale", BLUE);
+    logln("EPSI Battle Royale", BLUE);
+    logln("EPSI Battle Royale", BLUE);
+
+    Fighter* medium = new Fighter("medium", 10, 10, 10, 10);
+
+    Fighter* fattack = new Fighter("fattack", 0, 0, 0, 0);
+    Fighter* fdefense = new Fighter("fdefense", 0, 0, 0, 0);
+    Fighter* fintention = new Fighter("fintention", 0, 0, 0, 0);
+
+    medium->assault(medium);
+    
+    for (int i = 0; i < 5; i++) {
+        logln("### Stats " + to_string(i * 10), GREEN);
+        fattack->setStats(i * 10, 0, 0, 0);
+        fdefense->setStats(0, i * 10, 0, 0);
+        fintention->setStats(0, 0, 0, i * 10);
+        fattack->assault(medium);
+        medium->assault(fdefense);
+        fintention->initAp();
+        fintention->display(" : " + to_string(fintention->getAp()) + "AP");
+    }
+
+    return 0;
+    
+    /**
+     * 4 + intention / 5
+     * 10 -> AP        = 6
+     * 40 -> AP x2     = 12
+     *
+     * Attack = AP     = 6
+     * Move = AP / 2 . = 3
+     * Respe = AP / 2  = 3
+    */
+
 
     log("Combien de tours ? ", GREEN);
     if (argc > 1) {

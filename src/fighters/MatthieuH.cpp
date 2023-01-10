@@ -39,7 +39,7 @@ Action *MatthieuH::choose(Arena arena) {
 
         for (int i = 0; i < fighters.size(); ++i) {
 
-            if (fighters[i].isHere(this->getX(), this->getY())) {
+            if (!fighters[i].isMe(this->getFighter()) && fighters[i].isHere(this->getX(), this->getY())) {
                 isClose = true;
             }
         }
@@ -48,15 +48,21 @@ Action *MatthieuH::choose(Arena arena) {
 
             bool emptyPlace = false;
 
-            for (int i = 0; i < fighters.size(); ++i) {
+            for (int i = 0; i < fighters.size(); i++) {
 
-                for (int j = -1; j < 2; ++j) {
+                for (int j = -1; j < 2; j++) {
 
-                    for (int k = -1; k < 2; ++k) {
+                    for (int k = -1; k < 2; k++) {
 
-                        if (!fighters[i].isHere(this->getX() + j, this->getY() + k)) {
-                            action = new ActionMove(this->getX() + j, this->getY() + k);
-                            emptyPlace = true;
+                        if (!emptyPlace && !fighters[i].isMe(this->getFighter()) &&
+                            !fighters[i].isHere(this->getX() + j, this->getY() + k)) {
+                            if (!(this->getX() == 0 && j == -1) && !(this->getX() == 9 && j == 1) &&
+                                !(this->getY() == 0 && k == -1) && !(this->getY() == 9 && k == 1)) {
+                                action = new ActionMove(j, k);
+                                emptyPlace = true;
+
+                            }
+
                         }
 
                     }
@@ -66,11 +72,11 @@ Action *MatthieuH::choose(Arena arena) {
             }
 
             if (!emptyPlace) {
-                action = new ActionMove(this->getX(), this->getY());
+                action = new ActionMove(0, 0);
             }
 
         } else {
-            action = new ActionMove(this->getX(), this->getY());
+            action = new ActionMove(0, 0);
         }
 
     }

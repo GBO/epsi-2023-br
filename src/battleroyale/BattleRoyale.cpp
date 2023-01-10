@@ -121,6 +121,7 @@ void BattleRoyale::runRoundFighter(Fighter* fighter) {
         }
     }
     log("# ", GREEN);
+    bot->display();
     // Demandons à notre bot ce qu'il veut faire . . . 
     Action* action = bot->choose(this->getArena());
     // Il renvoie nullptr : il ne veut visiblement rien faire

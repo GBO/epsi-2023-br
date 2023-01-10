@@ -14,7 +14,8 @@ class Rambaud : public FighterBot {
 public:
     Rambaud();
 
-    virtual Action* choose(Arena arena);
+    Action* choose(Arena arena);
+    Fighter selectTarget(Arena arena);
 };
 
 #endif //EPSI_2023_BR_RAMBAUD_H

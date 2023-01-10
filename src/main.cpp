@@ -10,10 +10,30 @@
 #include "Dumb.h"
 #include "Ghislain.h"
 #include "Ghislain2.h"
-#include "MatthieuH.h"
-#include "Rambaud.h"
 #include "Humain.h"
 // #include "Thanos.h"
+
+#include "Abdoulaye.h"
+#include "Antoine.h"
+#include "Baptiste.h"
+#include "Fabien.h"
+#include "Guillaume.h"
+#include "JoJo.h"
+#include "Jq.h"
+#include "Maawox.h"
+#include "Marin.h"
+#include "Matteo.h"
+#include "MatthieuH.h"
+#include "Quentin.h"
+#include "QuentinV.h"
+#include "Rambaud.h"
+#include "Rosaline.h"
+#include "Say_O_Lit.h"
+#include "SimonP.h"
+#include "Simsim_miamsmiams_grrrt.h"
+#include "Sys.h"
+#include "Tom.h"
+#include "Viko.h"
 
 #include "log.h"
 
@@ -37,10 +57,31 @@ FighterBot* recruit(string prenom) {
     if (prenom == "Dumb") { bot = new Dumb; }
     else if (prenom == "Ghislain") { bot = new Ghislain; }
     else if (prenom == "Ghislain2") { bot = new Ghislain2; }
+    else if (prenom == "Humain") { bot = new Humain; }
+    // else if (prenom == "Thanos") { bot = new Thanos; }
+
+    else if (prenom == "Abdoulaye") { bot = new Abdoulaye; }
+    else if (prenom == "Antoine") { bot = new Antoine; }
+    else if (prenom == "Baptiste") { bot = new Baptiste; }
+    else if (prenom == "Fabien") { bot = new Fabien; }
+    else if (prenom == "Guillaume") { bot = new Guillaume; }
+    else if (prenom == "JoJo") { bot = new JoJo; }
+    else if (prenom == "Jq") { bot = new Jq; }
+    else if (prenom == "Maawox") { bot = new Maawox; }
+    else if (prenom == "Marin") { bot = new Marin; }
+    else if (prenom == "Matteo") { bot = new Matteo; }
     else if (prenom == "MatthieuH") { bot = new MatthieuH; }
+    else if (prenom == "Quentin") { bot = new Quentin; }
+    else if (prenom == "QuentinV") { bot = new QuentinV; }
     else if (prenom == "Rambaud") { bot = new Rambaud; }
-    //else if (prenom == "Thanos") { bot = new Thanos; }
-    else { bot = new Dumb(prenom); }
+    else if (prenom == "Rosaline") { bot = new Rosalyne; }
+    else if (prenom == "Say_O_Lit") { bot = new Say_O_Lit; }
+    else if (prenom == "SimonP") { bot = new SimonP; }
+    else if (prenom == "Simsim_miamsmiams_grrrt") { bot = new Simsim_miamsmiams_grrrt; }
+    else if (prenom == "Sys") { bot = new Sys; }
+    else if (prenom == "Tom") { bot = new Tom; }
+    else if (prenom == "Viko") { bot = new Viko; }
+    else { cout << "Il manque " << prenom << endl; }
     // On gère les scores (y a-t-il déjà une entrée de score pour ce prénom)
     bool found = false;
     for (Score score: scores) {
